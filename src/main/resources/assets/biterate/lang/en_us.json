@@ -1,0 +1,8 @@
+{
+  "tooltip.biterate.eat_time": "⏱ Eat time: %s seconds",
+  "tooltip.biterate.excess": "⚠ Excess food: +%s sec",
+  "tooltip.biterate.regen": "💚 Regeneration: %s sec",
+  "tooltip.biterate.daily_limit": "Daily diet: %d/%d",
+  "tooltip.biterate.penalty": "⚠ Overeat penalty: +%d%% time",
+  "tooltip.biterate.dietary_bonus": "🌱 Diet bonus: %s"
+}

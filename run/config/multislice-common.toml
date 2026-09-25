@@ -1,0 +1,8 @@
+#Коэффициент деления очков голода на укусы
+# Default: 3
+# Range: 1 ~ 20
+biteThreshold = 3
+#Список предметов, исключенных из системы укусов
+excludedFoods = ["minecraft:cake"]
+#Применять баффы только на финальном укусе
+delayBuffEffects = true

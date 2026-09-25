@@ -1,0 +1,8 @@
+{
+  "tooltip.biterate.eat_time": "⏱ Время поедания: %s сек",
+  "tooltip.biterate.excess": "⚠ Избыток еды: +%s сек",
+  "tooltip.biterate.regen": "💚 Регенерация: %s сек",
+  "tooltip.biterate.daily_limit": "Дневной рацион: %d/%d",
+  "tooltip.biterate.penalty": "⚠ Штраф за переедание: +%d%% к времени",
+  "tooltip.biterate.dietary_bonus": "🌱 Бонус за диету: %s"
+}
