@@ -30,7 +30,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @EventBusSubscriber(modid = BiteRate.MODID)
 public class EatingDurationHandler {
 
-    // Хранилище, чтобы запоминать реальный уровень голода ДО того, как еда восстановит сытость
+    
     private static final Map<UUID, Integer> PRE_EAT_FOOD_LEVELS = new ConcurrentHashMap<>();
 
     @SubscribeEvent
@@ -46,7 +46,7 @@ public class EatingDurationHandler {
         if (Config.excludedFoods != null && Config.excludedFoods.contains(itemId.toString())) return;
 
         int currentFoodLevel = player.getFoodData().getFoodLevel();
-        // Запоминаем уровень голода в момент начала еды
+        
         PRE_EAT_FOOD_LEVELS.put(player.getUUID(), currentFoodLevel);
 
         PlayerDietData dietData = player.getData(ModAttachments.DIET_DATA);
@@ -56,7 +56,7 @@ public class EatingDurationHandler {
         int originalDuration = event.getDuration();
         int newDuration;
 
-        // Если игрок полностью сыт, применяем ТОЛЬКО штрафы (без избытка)
+        
         if (currentFoodLevel >= BiteRate.MAX_FOOD_LEVEL) {
             int maxDailyQuota = EatingTimeCalculator.calculateMaxDailyQuota(food);
             int excessEaten = Math.max(0, eatenCount - maxDailyQuota);
@@ -84,7 +84,7 @@ public class EatingDurationHandler {
         if (event.getEntity().level().isClientSide()) return;
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
 
-        // Если игрок передумал и перестал есть - очищаем память
+        
         PRE_EAT_FOOD_LEVELS.remove(player.getUUID());
     }
 
@@ -93,7 +93,7 @@ public class EatingDurationHandler {
         if (event.getEntity().level().isClientSide()) return;
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
 
-        // ДОСТАЕМ уровень голода, который был ПЕРЕД тем как еда восстановила сытость
+        
         int preEatFoodLevel = PRE_EAT_FOOD_LEVELS.getOrDefault(player.getUUID(), player.getFoodData().getFoodLevel());
         PRE_EAT_FOOD_LEVELS.remove(player.getUUID());
 
@@ -116,10 +116,10 @@ public class EatingDurationHandler {
         if (dietData.hasDietaryBonus()) {
             int nutrition = food.nutrition();
 
-            // Считаем избыток на основе голода ДО поедания!
+            
             int excessNutrition = Math.max(0, nutrition - (BiteRate.MAX_FOOD_LEVEL - preEatFoodLevel));
 
-            // Реген дается только если был РЕАЛЬНЫЙ избыток и игрок не был уже полностью сыт до еды
+            
             if (excessNutrition > 0 && preEatFoodLevel < BiteRate.MAX_FOOD_LEVEL) {
                 int regenDuration = excessNutrition * 20;
                 player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, regenDuration, 0, false, false));
@@ -129,7 +129,7 @@ public class EatingDurationHandler {
         PacketDistributor.sendToPlayer(player, new SyncDietDataPayload(currentGameTime, dietData.getEatenFoodsMap(), dietData.hasDietaryBonus(), dietData.getBonusActivatedGameTime(), dietData.hadPenaltiesToday()));
     }
 
-    // ИСПРАВЛЕНИЕ 2: Копируем бонусные данные при возрождении/смерти
+    
     @SubscribeEvent
     public static void onPlayerClone(PlayerEvent.Clone event) {
         Player original = event.getOriginal();
@@ -139,11 +139,11 @@ public class EatingDurationHandler {
         PlayerDietData newData = newPlayer.getData(ModAttachments.DIET_DATA);
 
         if (event.isWasDeath()) {
-            // Если игрок умер: переносим только бонус и флаг штрафа (счетчики съеденной еды сбрасываются)
+            
             newData.setDietaryBonus(oldData.hasDietaryBonus(), oldData.getBonusActivatedGameTime());
             newData.setHadPenaltiesToday(oldData.hadPenaltiesToday());
         } else {
-            // Если игрок возвращается из Энда (прошел через портал) - копируем абсолютно всё
+            
             newData.deserializeNBT(newPlayer.registryAccess(), oldData.serializeNBT(original.registryAccess()));
         }
     }
@@ -161,7 +161,7 @@ public class EatingDurationHandler {
             PlayerDietData dietData = player.getData(ModAttachments.DIET_DATA);
             long currentGameTime = player.level().getGameTime();
 
-            // Сбрасываем счетчик еды, но теперь бонус останется благодаря onPlayerClone!
+            
             dietData.resetDailyDiet(currentGameTime);
             syncDietData(player);
         }
