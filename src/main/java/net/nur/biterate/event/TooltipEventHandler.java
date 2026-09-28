@@ -117,9 +117,12 @@ public class TooltipEventHandler {
         }
 
         // ИСПРАВЛЕНИЕ 4: Оранжевый цвет для бонуса, если заработал штрафы
+        // Выбираем ключ перевода для Да/Нет
+        String bonusStatusKey = dietData.hasDietaryBonus() ? "tooltip.biterate.status.yes" : "tooltip.biterate.status.no";
+
         MutableComponent bonusInfo = Component.translatable(
                 "tooltip.biterate.dietary_bonus",
-                dietData.hasDietaryBonus() ? "Да" : "Нет"
+                Component.translatable(bonusStatusKey)
         );
 
         if (dietData.hasDietaryBonus()) {

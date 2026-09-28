@@ -4,5 +4,7 @@
   "tooltip.biterate.regen": "💚 Regeneration: %s sec",
   "tooltip.biterate.daily_limit": "Daily diet: %d/%d",
   "tooltip.biterate.penalty": "⚠ Overeat penalty: +%d%% time",
-  "tooltip.biterate.dietary_bonus": "🌱 Diet bonus: %s"
+  "tooltip.biterate.dietary_bonus": "🌱 Diet bonus: %s",
+  "tooltip.biterate.status.yes": "Yes",
+  "tooltip.biterate.status.no": "No"
 }
