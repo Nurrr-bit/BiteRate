@@ -28,10 +28,10 @@ public class EatingParticleHandler {
             Minecraft mc = Minecraft.getInstance();
             Player player = event.getEntity();
 
-            // Только для локального игрока
+            
             if (player != mc.player) return;
 
-            // Проверяем если игрок ест
+            
             if (!player.isUsingItem()) return;
 
             ItemStack stack = player.getUseItem();
@@ -41,7 +41,7 @@ public class EatingParticleHandler {
             ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(stack.getItem());
             if (Config.excludedFoods != null && Config.excludedFoods.contains(itemId.toString())) return;
 
-            // Рассчитываем реальную длительность поедания
+            
             PlayerDietData dietData = player.getData(ModAttachments.DIET_DATA);
             long currentGameTime = player.level().getGameTime();
             int eatenCount = dietData.getEatenCount(itemId.toString(), currentGameTime);
@@ -50,20 +50,19 @@ public class EatingParticleHandler {
             int originalDuration = stack.getUseDuration(player);
             int totalDuration = EatingTimeCalculator.calculateEatingDuration(food, originalDuration, currentFoodLevel, eatenCount);
 
-            // Если длительность ванильная, частицы спавнит сам Minecraft
+            
             if (totalDuration == originalDuration) return;
 
             int remainingTicks = player.getUseItemRemainingTicks();
             int elapsed = totalDuration - remainingTicks;
 
-            // Адаптируем интервал спавна под длительность (ванильно: каждые 4 тика при 32 тиках = 8 раз)
-            // Для 100 тиков: 100 / 8 = 12.5 тиков интервал
+            
             int vanillaInterval = 4;
             int vanillaDuration = 32;
             int adaptedInterval = (totalDuration * vanillaInterval) / vanillaDuration;
 
             if (elapsed % adaptedInterval == 0 && elapsed > 0) {
-                // Спавним 3-5 частиц как в ваниле
+                
                 int particleCount = 3 + player.getRandom().nextInt(3);
                 spawnEatingParticles(player, stack, particleCount);
             }
@@ -80,7 +79,7 @@ public class EatingParticleHandler {
             double offsetY = (player.getRandom().nextDouble() - 0.5) * 0.5;
             double offsetZ = (player.getRandom().nextDouble() - 0.5) * 0.5;
 
-            // Случайная скорость движения частиц
+            
             double velocityX = (player.getRandom().nextDouble() - 0.5) * 0.1;
             double velocityY = (player.getRandom().nextDouble() - 0.5) * 0.1;
             double velocityZ = (player.getRandom().nextDouble() - 0.5) * 0.1;
