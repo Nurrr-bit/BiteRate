@@ -38,7 +38,7 @@ public class PlayerDietData implements INBTSerializable<CompoundTag> {
             hadPenaltiesToday = false; // Сбрасываем флаг штрафов через день
         }
 
-        // Проверяем если бонус активен и прошел 1 день с активации - снимаем бонус
+        
         if (hasDietaryBonus && bonusActivatedGameTime > 0) {
             long ticksSinceBonusActivation = currentGameTime - bonusActivatedGameTime;
             if (ticksSinceBonusActivation >= BiteRate.TICKS_PER_DAY) {
