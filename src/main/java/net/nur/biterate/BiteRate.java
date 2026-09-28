@@ -15,7 +15,7 @@ public class BiteRate {
     public static final String MODID = "biterate";
     public static final Logger LOGGER = LogUtils.getLogger();
 
-    // Наши удобные константы
+    
     public static final int TICKS_PER_SECOND = 20;
     public static final long TICKS_PER_DAY = 24000L; // <-- Добавили константу суток
     public static final int MAX_FOOD_LEVEL = 20;
