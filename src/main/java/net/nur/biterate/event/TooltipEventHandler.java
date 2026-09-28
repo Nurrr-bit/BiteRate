@@ -48,7 +48,7 @@ public class TooltipEventHandler {
         int excessNutrition = Math.max(0, nutrition - (BiteRate.MAX_FOOD_LEVEL - currentFoodLevel));
 
         int durationTicks;
-        // ИСПРАВЛЕНИЕ 3: Если игрок полностью сыт, показываем время без избытка, но СО ШТРАФОМ
+        
         if (currentFoodLevel >= BiteRate.MAX_FOOD_LEVEL) {
             int excessEaten = Math.max(0, eatenCount - maxDailyQuota);
             double penaltyFactor = 1.0 + (excessEaten * Config.penaltyPerExcess);
@@ -87,7 +87,7 @@ public class TooltipEventHandler {
             }
         }
 
-        // ИСПРАВЛЕНИЕ 1: Цвет для дневного лимита (4/4 -> Оранжевый, >4 -> Красный)
+        
         MutableComponent limitInfo = Component.translatable(
                 "tooltip.biterate.daily_limit",
                 eatenCount,
@@ -116,8 +116,7 @@ public class TooltipEventHandler {
             event.getToolTip().add(insertIndex++, penaltyInfo);
         }
 
-        // ИСПРАВЛЕНИЕ 4: Оранжевый цвет для бонуса, если заработал штрафы
-        // Выбираем ключ перевода для Да/Нет
+        
         String bonusStatusKey = dietData.hasDietaryBonus() ? "tooltip.biterate.status.yes" : "tooltip.biterate.status.no";
 
         MutableComponent bonusInfo = Component.translatable(
@@ -127,10 +126,10 @@ public class TooltipEventHandler {
 
         if (dietData.hasDietaryBonus()) {
             if (dietData.hadPenaltiesToday() || eatenCount > maxDailyQuota) {
-                // Бонус есть, но порог превышен -> Оранжевый
+                
                 bonusInfo.withStyle(Style.EMPTY.withColor(0xFFA500));
             } else {
-                // Идеальная диета -> Зеленый
+                
                 bonusInfo.withStyle(ChatFormatting.GREEN);
             }
         } else {
